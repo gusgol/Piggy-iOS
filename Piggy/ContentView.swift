@@ -1,21 +1,26 @@
-//
-//  ContentView.swift
-//  Piggy
-//
-//  Created by Gustavo Goldhardt on 07/10/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @State private var expenseStore: ExpenseStore = ExpenseStore(service: SupabaseExpenseService())
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            ExpensesView()
+                .environment(expenseStore)
+                .tabItem {
+                    Image(systemName: "dollarsign")
+                }
+            CategoriesView()
+                .tabItem {
+                    Image(systemName: "archivebox")
+                }
+            Group {
+                Text("Charts")
+            }
+                .tabItem {
+                    Image(systemName: "chart.pie")
+                }
         }
-        .padding()
     }
 }
 
