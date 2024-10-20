@@ -38,9 +38,22 @@
 		463BC9E72CB4185C0098BE5C /* PiggyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PiggyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		46BA0EF22CB97BC00008DB50 /* Exceptions for "Piggy" folder in "Piggy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 463BC9CC2CB4185A0098BE5C /* Piggy */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		463BC9CF2CB4185A0098BE5C /* Piggy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				46BA0EF22CB97BC00008DB50 /* Exceptions for "Piggy" folder in "Piggy" target */,
+			);
 			path = Piggy;
 			sourceTree = "<group>";
 		};
@@ -423,6 +436,7 @@
 				DEVELOPMENT_TEAM = 55A5JDHQ2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Piggy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -452,6 +466,7 @@
 				DEVELOPMENT_TEAM = 55A5JDHQ2H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Piggy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -2,24 +2,37 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var expenseStore: ExpenseStore = ExpenseStore(service: SupabaseExpenseService())
+    @State private var categoryStore: CategoryStore = CategoryStore(service: SupabaseCategoryService())
+    @State private var authStore: AuthStore = AuthStore(service: SupabaseAuthService())
     
     var body: some View {
-        TabView {
-            ExpensesView()
-                .environment(expenseStore)
-                .tabItem {
-                    Image(systemName: "dollarsign")
+        if (!authStore.isAuthenticated) {
+            SignInView()
+                .environment(authStore)
+        } else {
+            TabView {
+                ExpensesView()
+                    .environment(expenseStore)
+                    .environment(categoryStore)
+                    .tabItem {
+                        Image(systemName: "dollarsign")
+                    }
+                CategoriesView()
+                    .environment(categoryStore)
+                    .tabItem {
+                        Image(systemName: "archivebox")
+                    }
+                Group {
+                    Text("Charts")
                 }
-            CategoriesView()
-                .tabItem {
-                    Image(systemName: "archivebox")
-                }
-            Group {
-                Text("Charts")
+                    .tabItem {
+                        Image(systemName: "chart.pie")
+                    }
+                ProfileView()
+                    .tabItem {
+                        Image(systemName: "person.crop.circle")
+                    }
             }
-                .tabItem {
-                    Image(systemName: "chart.pie")
-                }
         }
     }
 }

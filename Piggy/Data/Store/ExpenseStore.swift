@@ -1,10 +1,3 @@
-//
-//  ExpenseStore.swift
-//  Piggy
-//
-//  Created by Gustavo Goldhardt on 09/10/24.
-//
-
 import Foundation
 
 @Observable
@@ -12,10 +5,11 @@ class ExpenseStore {
     enum State: Equatable {
         case stale
         case loading
-        case success([String: [Expense]])
+        case success
         case failure
     }
     var state: State = .stale
+    var groupedExpenses: [String: [Expense]] = [:]
     
     private let service: ExpenseService
     
@@ -34,9 +28,9 @@ class ExpenseStore {
         }
     }
     
-    func getExpenses() async {
+    func getExpenses(start: Date, end: Date) async {
         state = .loading
-        await service.getExpenses { result in
+        await service.getExpenses(start: start, end: end) { result in
             switch result {
             case .success(let expenses):
                 let groupedExpenses = Dictionary(grouping: expenses) { expense in
@@ -44,7 +38,8 @@ class ExpenseStore {
                     dateFormatter.dateFormat = "yyyy-MM-dd"
                     return dateFormatter.string(from: expense.createdAt)
                 }
-                self.state = .success(groupedExpenses)
+                self.groupedExpenses = groupedExpenses
+                self.state = .success
             case .failure(let error):
                 print("Failed to get expenses: \(error)")
                 self.state = .failure
