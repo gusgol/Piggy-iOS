@@ -26,16 +26,14 @@ class SupabaseCategoryService: CategoryService {
             completion(.failure(error))
         }
     }
-    
-    func deleteCategory(_ id: UUID, completion: @escaping (Result<Void, any Error>) -> Void) async {
-        print("Id: \(id.uuidString)")
+
+    func softDelete(_ id: UUID, completion: @escaping (Result<Void, any Error>) -> Void) async {
         do {
-            let result = try await supabase
+            try await supabase
               .from("categories")
-              .delete()
+              .update(["deleted": "TRUE"])
               .eq("id", value: id.uuidString)
               .execute()
-            print(result)
             completion(.success(()))
         } catch {
             completion(.failure(error))

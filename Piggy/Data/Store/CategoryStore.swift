@@ -24,6 +24,7 @@ class CategoryStore {
             switch result {
             case .success(let categories):
                 self.categories = categories
+                    .filter { !$0.deleted }
                 self.state = .success
             case .failure(let error):
                 print("Failed to get expenses: \(error)")
@@ -55,9 +56,8 @@ class CategoryStore {
         guard let id = categories[index].id else {
             return
         }
-        print(categories[index].name)
         categories.remove(at: index)
-        await service.deleteCategory(id) { result in
+        await service.softDelete(id) { result in
             switch result {
             case .success():
                 self.state = .stale
