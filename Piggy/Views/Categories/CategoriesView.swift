@@ -4,6 +4,7 @@ import SwiftUI
 struct CategoriesView: View {
     @Environment(CategoryStore.self) private var categoryStore
     @State private var addCategory = false
+    @State private var editCategory = false
     
     var body: some View {
         NavigationStack {
@@ -22,6 +23,9 @@ struct CategoriesView: View {
                                     .padding(.leading, 8)
                             }
                             .padding(.vertical, 8)
+                            .onTapGesture {
+                                onCategorySelected(category)
+                            }
                         }
                         .onDelete(perform: deleteItems)
 
@@ -44,6 +48,9 @@ struct CategoriesView: View {
             .sheet(isPresented: $addCategory) {
                 AddCategoryView(isPresented: $addCategory)
             }
+            .sheet(isPresented: $editCategory) {
+                EditCategoryView(isPresented: $editCategory)
+            }
             .onChange(of: categoryStore.state, initial: true) { _, state in
                 if state == .stale {
                     Task {
@@ -60,6 +67,11 @@ struct CategoriesView: View {
         Task {
             await categoryStore.delete(index: firstIndex)
         }
+    }
+    
+    func onCategorySelected(_ category: Category) {
+        categoryStore.selectedCategory = category
+        editCategory = true
     }
 }
 

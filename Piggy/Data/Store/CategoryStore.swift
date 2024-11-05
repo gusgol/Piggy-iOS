@@ -12,6 +12,8 @@ class CategoryStore {
     
     var categories: [Category] = []
     
+    var selectedCategory: Category? = nil
+    
     private var service: CategoryService
     
     init(service: CategoryService) {
@@ -63,7 +65,20 @@ class CategoryStore {
                 self.state = .stale
                 print("Success!")
             case .failure(let error):
-                print("Failed to delete expense: \(error)")
+                print("Failed to delete category: \(error)")
+            }
+        }
+    }
+    
+    func edit(name: String, icon: String, color: String) async {
+        guard let selectedCategory = selectedCategory else { return }
+        let updatedCategory = Category(id: selectedCategory.id, name: name, color: color, icon: icon)
+        await service.editCategory(updatedCategory) { result in
+            switch result {
+            case .success():
+                self.state = .stale
+            case .failure(let error):
+                print("Failed to update category: \(error)")
             }
         }
     }

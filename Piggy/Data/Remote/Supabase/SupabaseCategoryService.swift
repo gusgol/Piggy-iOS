@@ -39,4 +39,17 @@ class SupabaseCategoryService: CategoryService {
             completion(.failure(error))
         }
     }
+    
+    func editCategory(_ category: Category, completion: @escaping (Result<Void, any Error>) -> Void) async {
+        do {
+            try await supabase
+              .from("categories")
+              .update(category)
+              .eq("id", value: category.id?.uuidString)
+              .execute()
+            completion(.success(()))
+        } catch {
+            completion(.failure(error))
+        }
+    }
 }
