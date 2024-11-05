@@ -46,4 +46,18 @@ class ExpenseStore {
             }
         }
     }
+    
+    func calculateCategorySums() -> [(String, Int)] {
+        var categorySums: [String: Int] = [:]
+        
+        let expenses = groupedExpenses.flatMap { $0.value }
+        
+        for expense in expenses {
+            categorySums[expense.category?.name ?? "No category", default: 0] += expense.amount
+        }
+        
+        print(categorySums)
+        
+        return categorySums.map { ($0.key, $0.value) }
+    }
 }

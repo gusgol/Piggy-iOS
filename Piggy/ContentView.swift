@@ -22,9 +22,9 @@ struct ContentView: View {
                     .tabItem {
                         Image(systemName: "archivebox")
                     }
-                Group {
-                    Text("Charts")
-                }
+                ChartsView()
+                    .environment(expenseStore)
+                    .environment(categoryStore)
                     .tabItem {
                         Image(systemName: "chart.pie")
                     }
