@@ -46,5 +46,26 @@ class CategoryStore {
     func getDefaultCategory() -> Category {
         return Category(name: "Undefined", color: "#c73041", icon: "questionmark")
     }
+    
+    func getColorByCategoryName(_ name: String) -> String {
+        return categories.first(where: { $0.name == name })?.color ?? "#c73041"
+    }
+    
+    func delete(index: Int) async {
+        guard let id = categories[index].id else {
+            return
+        }
+        print(categories[index].name)
+        categories.remove(at: index)
+        await service.deleteCategory(id) { result in
+            switch result {
+            case .success():
+                self.state = .stale
+                print("Success!")
+            case .failure(let error):
+                print("Failed to delete expense: \(error)")
+            }
+        }
+    }
 }
 

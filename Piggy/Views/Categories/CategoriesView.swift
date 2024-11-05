@@ -13,14 +13,18 @@ struct CategoriesView: View {
                     ProgressView()
                         .frame(width: 100, height: 100)
                 case .success:
-                    List(categoryStore.categories) { category in
-                        HStack {
-                            CategoryIconView(category: category)
-                            Text(category.name)
-                                .font(.headline)
-                                .padding(.leading, 8)
+                    List() {
+                        ForEach(categoryStore.categories) { category in
+                            HStack {
+                                CategoryIconView(category: category)
+                                Text(category.name)
+                                    .font(.headline)
+                                    .padding(.leading, 8)
+                            }
+                            .padding(.vertical, 8)
                         }
-                        .padding(.vertical, 8)
+                        .onDelete(perform: deleteItems)
+
                     }
                 case .failure:
                     VStack {
@@ -47,6 +51,14 @@ struct CategoriesView: View {
                     }
                 }
             }
+        }
+    }
+    
+    func deleteItems(at offsets: IndexSet) {
+        print(offsets)
+        guard let firstIndex = offsets.first else { return }
+        Task {
+            await categoryStore.delete(index: firstIndex)
         }
     }
 }
